@@ -1,0 +1,82 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+#define sf scanf
+#define pf printf
+#define mem(a,b) memset(a,b,sizeof(a));
+#define rep(i,a,b) for(int i=(a);i<=(b);++i)
+#define MP make_pair
+#define ULL unsigned long long
+#define LL   long long
+#define inf 0x3f3f3f3f
+#define md ((ll+rr)>>1)
+#define ls (i<<1)
+#define rs (ls|1)
+#define eps 1e-5
+#define N 1005
+#define ree freopen("in.txt","r",stdin);
+#define bug pf("----------------");
+int len;
+char s[N],t[N];
+bool judge(int l,int r){
+    if(s[r]==t[l]){
+        while(l<r&&s[l]==t[l+1]){
+            l++;
+        }
+        if(l==r)return true;
+        else return false;
+    }
+    else if(s[l]==t[r]){
+        while(l<r&&s[l+1]==t[l]){
+            ++l;
+        }
+        if(l==r)return true;
+        else return false;
+    }
+    else return false;
+}
+
+int ret;
+void deal(int l,int r){
+    for(int i=l;i<=r;++i){
+        int flag=0;
+        for(int j=i;j<=r;++j){
+            if(judge(i,j)){
+                ret+=j-i;flag=1;
+                i=j;break;
+            }
+        }
+        if(!flag)ret++;
+    }
+}
+int  solve(){
+     ret=0;
+    for(int i=1;i<=len;++i){
+        if(s[i]==t[i])continue;
+        if(s[i]!=t[i]){
+            int j=i;
+            int flag=0;
+            while(j+1<=len&&s[j+1]!=t[j+1]){
+                ++j;
+            }
+            deal(i,j);
+            i=j;
+        }
+    }
+    return ret;
+}
+int main(){
+    ree
+    int T;sf("%d",&T);
+    while(T--){
+        sf("%s",s+1);
+        sf("%s",t+1);
+        len=strlen(s+1);
+        int ans;
+        ans=solve();
+        //reverse(s+1,s+1+len);
+        //reverse(t+1,t+1+len);
+        //ans=min(ans,solve());
+        cout<<ans<<'\n';
+    }
+}
